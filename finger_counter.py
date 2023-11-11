@@ -78,8 +78,24 @@ with mp_hands.Hands(model_complexity=0,min_detection_confidence=0.5,min_tracking
     # Display finger count
     cv2.putText(image, str(fingerCount), (50, 450), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX, 3, (255,255 ,255), 10)
 
-     
+     # For detecting Left Right Or Both Hands
+    if len(results.multi_handedness) == 2: 
+    # Display 'Both Hands' on the image
+        cv2.putText(image, 'Both Hands', (250, 50),cv2.FONT_HERSHEY_COMPLEX,1, (0, 255, 0), 2) 
+    # If any hand present
+    else:
+        for i in results.multi_handedness: 
+    
+    # Return whether it is Right or Lef
+            label = MessageToDict(i)['classification'][0]['label']
+            if label == 'Left': 	
+      # Display 'Left Hand' on left side of window
+                cv2.putText(image, label+' Hand',(20, 50),cv2.FONT_HERSHEY_COMPLEX,1,  2)
+            if label == 'Right': 
+      # Display 'Left Hand' on left side of window
+                cv2.putText(image, label+' Hand', (460, 50),cv2.FONT_HERSHEY_COMPLEX,1,  2)
     # Display image
+    
     cv2.imshow('Fingers Counter', image)
     if cv2.waitKey(1) == 13:
       break
